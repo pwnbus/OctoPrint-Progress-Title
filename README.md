@@ -1,4 +1,4 @@
-# OctoPrint-ProgressTitle
+# OctoPrint-Progress-Title
 
 Show print progress in document title
 
@@ -9,4 +9,4 @@ Show print progress in document title
 Install via the bundled [Plugin Manager](https://github.com/foosel/OctoPrint/wiki/Plugin:-Plugin-Manager)
 or manually using this URL:
 
-    https://github.com/pwnbus/OctoPrint-ProgressTitle/archive/master.zip
+    https://github.com/pwnbus/OctoPrint-Progress-Title/archive/master.zip

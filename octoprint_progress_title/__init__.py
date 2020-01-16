@@ -37,11 +37,11 @@ class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin, octoprint.plugin.Asse
                 # version check: github repository
                 type="github_release",
                 user="pwnbus",
-                repo="OctoPrint-ProgressTitle",
+                repo="OctoPrint-Progress-Title",
                 current=self._plugin_version,
 
                 # update method: pip
-                pip="https://github.com/pwnbus/OctoPrint-ProgressTitle/archive/{target_version}.zip"
+                pip="https://github.com/pwnbus/OctoPrint-Progress-Title/archive/{target_version}.zip"
             )
         )
 
