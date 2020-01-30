@@ -47,6 +47,7 @@ class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin, octoprint.plugin.Asse
 
 
 __plugin_name__ = "Progress Title"
+__plugin_pythoncompat__ = ">=2.7,<4"
 
 
 def __plugin_load__():
