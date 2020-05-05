@@ -1,6 +1,38 @@
 $(function() {
-    function ProgressTitleViewModel(viewModels) {
+    function ProgressTitleViewModel(parameters) {
         var self = this;
+        self.printerStateViewModel = parameters[0];
+
+        self.original_processProgressData = self.printerStateViewModel._processProgressData;
+        self.printerStateViewModel._processProgressData = function(data) {
+            self.original_processProgressData(data);
+            if (data.completion) {
+                // Attempt to detect if we should use system print time
+                // or if a plugin is running that sets the value
+                if (data.printTimeLeftOrigin == 'linear' || data.printTimeLeftOrigin == 'average') {
+                    self.custom_time_plugin = false;
+                }
+                else {
+                    self.custom_time_plugin = true;
+                }
+                if (data.completion) {
+                    if (self.custom_time_plugin){
+                        // References the PrintTimeGenius plugin
+                        percentage_completed = (data.printTime||0) / ((data.printTime||0) + (data.printTimeLeft)) * 100;
+                    }
+                    else {
+                        percentage_completed = data.completion;
+                    }
+                    self.updateProgress(parseInt(percentage_completed));
+                }
+                else {
+                    self.clearProgress();
+                }
+            }
+            else {
+                self.clearProgress();
+            }
+        };
 
         self.onAllBound = function () {
             self.default_title = document.title;
@@ -22,11 +54,14 @@ $(function() {
                 self.clearProgress();
                 return;
             }
-            if (data.type === "update_progress") {
-                self.updateProgress(data.progress);
-            }
-            else {
-                self.clearProgress();
+            if (self.custom_time_plugin == false) {
+                // Use normal system progress
+                if (data.type === "update_progress") {
+                    self.updateProgress(data.progress);
+                }
+                else {
+                    self.clearProgress();
+                }
             }
         };
         self.updateProgress = function(progress) {
@@ -35,7 +70,9 @@ $(function() {
         self.clearProgress = function() {
             document.title = self.default_title;
         };
-
     }
-    ADDITIONAL_VIEWMODELS.push([ProgressTitleViewModel, [], []]);
+    OCTOPRINT_VIEWMODELS.push({
+        construct: ProgressTitleViewModel,
+        dependencies: ["printerStateViewModel"]
+    });
 });
