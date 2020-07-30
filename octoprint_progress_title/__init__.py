@@ -2,8 +2,6 @@
 import octoprint.plugin
 from octoprint.events import Events
 
-import time
-
 
 class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin, octoprint.plugin.AssetPlugin, octoprint.plugin.EventHandlerPlugin):
 
@@ -15,9 +13,6 @@ class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin, octoprint.plugin.Asse
             if self._printer.is_printing():
                 printer_data = self._printer.get_current_data()
                 progress = int(printer_data['progress']['completion'])
-                # We sleep or else when you load a new page
-                # the document.title call in javascript doesn't work as expected
-                time.sleep(1)
                 self._plugin_manager.send_plugin_message(self._identifier, dict(type='update_progress', progress=progress))
             else:
                 self._plugin_manager.send_plugin_message(self._identifier, dict(type='remove_progress'))
