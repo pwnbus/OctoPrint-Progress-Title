@@ -42,6 +42,7 @@ $(function() {
             if (plugin != "progress_title") {
                 return;
             }
+            self._position = data.position
             self._handle_message(data);
         };
 
@@ -65,7 +66,15 @@ $(function() {
             }
         };
         self.updateProgress = function(progress) {
-            document.title = self.default_title + " - " + progress + "%";
+            if (self._position == "append") {
+                document.title = self.default_title + " - " + progress + "%";
+            }
+            else if (self._position == "prepend") {
+                document.title = progress + "% - " + self.default_title;
+            }
+            else {
+                document.title = self.default_title;
+            }
         };
         self.clearProgress = function() {
             document.title = self.default_title;
