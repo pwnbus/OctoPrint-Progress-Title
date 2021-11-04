@@ -72,6 +72,9 @@ $(function() {
             else if (self._position == "prepend") {
                 document.title = progress + "% - " + self.default_title;
             }
+            else {
+                document.title = self.default_title;
+            }
         };
         self.clearProgress = function() {
             document.title = self.default_title;

@@ -10,6 +10,9 @@
             <label class="radio">
                 <input type="radio" name="progress_title_position_group" value="append" data-bind="checked: settings.plugins.progress_title.position"> {{ _('Append') }}
             </label>
+            <label class="radio" style="font-style: italic;">
+                <input type="radio" name="progress_title_position_group" value="disabled" data-bind="checked: settings.plugins.progress_title.position"> {{ _('Disabled') }}
+            </label>
         </div>
     </div>
 </form>
