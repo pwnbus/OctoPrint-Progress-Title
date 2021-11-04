@@ -3,7 +3,12 @@ import octoprint.plugin
 from octoprint.events import Events
 
 
-class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin, octoprint.plugin.AssetPlugin, octoprint.plugin.EventHandlerPlugin):
+class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin,
+                          octoprint.plugin.AssetPlugin,
+                          octoprint.plugin.EventHandlerPlugin,
+                          octoprint.plugin.StartupPlugin,
+                          octoprint.plugin.TemplatePlugin,
+                          octoprint.plugin.SettingsPlugin):
 
     def get_assets(self):
         return dict(js=["js/progress_title.js"])
@@ -13,15 +18,23 @@ class ProgressTitlePlugin(octoprint.plugin.ProgressPlugin, octoprint.plugin.Asse
             if self._printer.is_printing():
                 printer_data = self._printer.get_current_data()
                 progress = int(printer_data['progress']['completion'])
-                self._plugin_manager.send_plugin_message(self._identifier, dict(type='update_progress', progress=progress))
+                self._plugin_manager.send_plugin_message(self._identifier, dict(type='update_progress', progress=progress, position=self._settings.get(["position"])))
             else:
                 self._plugin_manager.send_plugin_message(self._identifier, dict(type='remove_progress'))
 
     def on_print_progress(self, storage, path, progress):
-        self._plugin_manager.send_plugin_message(self._identifier, dict(type='update_progress', progress=progress))
+        self._plugin_manager.send_plugin_message(self._identifier, dict(type='update_progress', progress=progress, position=self._settings.get(["position"])))
 
     def get_version(self):
         return self._plugin_version
+
+    def get_settings_defaults(self):
+        return {
+            "position": "append",
+        }
+
+    def get_template_configs(self):
+        return [{"type": "settings", "custom_bindings": False}]
 
     def get_update_information(self):
         return dict(

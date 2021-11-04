@@ -1,0 +1,16 @@
+<h3>{{ _('Progress Title') }}</h3>
+
+<form class="form-horizontal" onsubmit="return false;">
+    <div class="control-group">
+        <label class="control-label">{{ _('Position in title')}}</label>
+        <div class="controls">
+            <label class="radio">
+                <input type="radio" name="progress_title_position_group" value="prepend" data-bind="checked: settings.plugins.progress_title.position"> {{ _('Prepend') }}
+            </label>
+            <label class="radio">
+                <input type="radio" name="progress_title_position_group" value="append" data-bind="checked: settings.plugins.progress_title.position"> {{ _('Append') }}
+            </label>
+        </div>
+    </div>
+</form>
+
